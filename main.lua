@@ -9,6 +9,7 @@ ALTURA_VIRTUAL = 288
 --Import Image
 local background = love.graphics.newImage('background.png') 
 local ground = love.graphics.newImage('ground.png')
+local bird = love.graphics.newImage('R.png')
 
 local backgroundScroll = 0
 local groundScroll = 0
@@ -49,9 +50,11 @@ end
 
 function love.draw()
     push:start()
-
+    love.graphics.scale (1,1)
     love.graphics.draw(background,-backgroundScroll,0)
     love.graphics.draw(ground, -groundScroll, ALTURA_VIRTUAL - 16)
+    love.graphics.scale (0.2,0.2)
+    love.graphics.draw(bird ,  LARGURA_VIRTUAL /2 +850, ALTURA_VIRTUAL /2 +550)
     
     push:finish()
 end
