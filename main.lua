@@ -1,5 +1,9 @@
 push = require 'push'
 
+Class = require 'class'
+
+require 'Bird'
+
 LARGURA_JANELA = 1280
 ALTURA_JANELA = 720
 
@@ -9,7 +13,9 @@ ALTURA_VIRTUAL = 288
 --Import Image
 local background = love.graphics.newImage('background.png') 
 local ground = love.graphics.newImage('ground.png')
-local bird = love.graphics.newImage('R.png')
+
+--Instance Bird
+local bird = Bird()
 
 local backgroundScroll = 0
 local groundScroll = 0
@@ -22,8 +28,6 @@ local BACKGROUND_SPEED = 30
 local BACKGROUND_LOOP = 413
 local GROUND_LOOP = 413
 
-local BIRD_TESTE = 30
-
 function love.load()
     love.window.setTitle("Flappy Bird") -- Name Window
     love.graphics.setDefaultFilter('nearest' , 'nearest') --Retro Filtro
@@ -32,6 +36,8 @@ function love.load()
     vsync = true
     fullscreen = false
     resizable = true
+
+    love.keyboard.keyspressed = {}
 end
 
 function love.resize(l,a)
@@ -39,15 +45,25 @@ function love.resize(l,a)
 end
 
 function love.keypressed(tecla)
-    --Close game
+    love.keyboard.keyspressed[tecla] = true
+
     if tecla == 'escape' then
         love.event.quit()
     end
 end
 
+function love.keyboard.wasPressed(tecla)
+    if love.keyboard.keyspressed[tecla] then
+        return true
+    else
+        return false
+    end
+end
 function love.update(dt)
     backgroundScroll = (backgroundScroll + BACKGROUND_SPEED * dt) % BACKGROUND_LOOP
     groundScroll = (groundScroll + GROUND_SPEED * dt) % GROUND_LOOP
+    bird:update(dt)
+    love.keyboard.keyspressed = {}
 end
 
 function love.draw()
@@ -56,7 +72,8 @@ function love.draw()
     love.graphics.draw(background,-backgroundScroll,0)
     love.graphics.draw(ground, -groundScroll, ALTURA_VIRTUAL - 16)
     love.graphics.scale (0.2,0.2)
-    love.graphics.draw(bird ,  LARGURA_VIRTUAL /2 +850, ALTURA_VIRTUAL /2 +550)
+    
+    bird:render()
     
     push:finish()
 end
