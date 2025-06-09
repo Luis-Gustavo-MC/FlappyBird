@@ -22,6 +22,8 @@ local BACKGROUND_SPEED = 30
 local BACKGROUND_LOOP = 413
 local GROUND_LOOP = 413
 
+local BIRD_TESTE = 30
+
 function love.load()
     love.window.setTitle("Flappy Bird") -- Name Window
     love.graphics.setDefaultFilter('nearest' , 'nearest') --Retro Filtro
