@@ -88,12 +88,12 @@ function love.draw()
     push:start()
     love.graphics.scale (1,1)
     love.graphics.draw(background,-backgroundScroll,0)
-    love.graphics.draw(ground, -groundScroll, ALTURA_VIRTUAL - 16)
-    love.graphics.scale(0.5,0.5)
+    --love.graphics.scale(1,1)
+    --love.graphics.scale(0.05,0.05)
     for k, pine in pairs(pines) do
         pine:render()
     end
-
+    love.graphics.draw(ground, -groundScroll, ALTURA_VIRTUAL - 16)
     bird:render()
     
     push:finish()
