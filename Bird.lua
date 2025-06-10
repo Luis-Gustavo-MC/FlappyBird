@@ -5,10 +5,10 @@ function Bird:init()
     self.imagem = love.graphics.newImage('R.png')
     self.largura = self.imagem:getWidth()
     self.altura = self.imagem:getHeight()
-    self.dy = 1
+    self.dy = 0
 
     self.x = LARGURA_VIRTUAL / 2 +700 - (self.largura / 2)
-    self.y = ALTURA_VIRTUAL / 2  +500 - (self.largura / 2)
+    self.y = ALTURA_VIRTUAL / 2  +500 - (self.altura / 2)
 end
 
 function Bird:update(dt)
@@ -19,7 +19,7 @@ function Bird:update(dt)
         self.dy = -7
     end
 end
-
 function Bird:render()
+    love.graphics.scale(0.2,0.2)
     love.graphics.draw(self.imagem, self.x, self.y)
 end

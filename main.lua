@@ -3,7 +3,7 @@ push = require 'push'
 Class = require 'class'
 
 require 'Bird'
-
+require 'Pine'
 LARGURA_JANELA = 1280
 ALTURA_JANELA = 720
 
@@ -14,8 +14,12 @@ ALTURA_VIRTUAL = 288
 local background = love.graphics.newImage('background.png') 
 local ground = love.graphics.newImage('ground.png')
 
---Instance Bird
+--Instance 
 local bird = Bird()
+local pine = Pine()
+
+local pines = {}
+local spawnTimer = 0
 
 local backgroundScroll = 0
 local groundScroll = 0
@@ -62,7 +66,21 @@ end
 function love.update(dt)
     backgroundScroll = (backgroundScroll + BACKGROUND_SPEED * dt) % BACKGROUND_LOOP
     groundScroll = (groundScroll + GROUND_SPEED * dt) % GROUND_LOOP
+
+    spawnTimer = spawnTimer + dt
+
+    if spawnTimer > 2 then
+        table.insert(pines, Pine())
+        print('Added new pine!')
+        spawnTimer = 0 
+    end
     bird:update(dt)
+    for k, pine in pairs(pines) do
+    pine:update(dt)
+    end
+    if pine.x < - pine.width then
+        table.remove(pines, k)
+    end
     love.keyboard.keyspressed = {}
 end
 
@@ -71,8 +89,11 @@ function love.draw()
     love.graphics.scale (1,1)
     love.graphics.draw(background,-backgroundScroll,0)
     love.graphics.draw(ground, -groundScroll, ALTURA_VIRTUAL - 16)
-    love.graphics.scale (0.2,0.2)
-    
+    love.graphics.scale(0.5,0.5)
+    for k, pine in pairs(pines) do
+        pine:render()
+    end
+
     bird:render()
     
     push:finish()
